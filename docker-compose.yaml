@@ -1,0 +1,22 @@
+services:
+  osrm:
+    image: osrm/osrm-backend
+    container_name: "osrm"
+    volumes:
+      - ~/Documents/osm:/data
+      - ./profiles:/profiles
+    networks:
+      - default
+    ports:
+      - 6000:5000
+    restart: unless-stopped
+    command: bash -c "
+      osrm-extract -l INFO -p /profiles/running.lua /data/singapore.osm.pbf
+      && osrm-partition -l INFO /data/singapore.osrm
+      && osrm-customize -l INFO /data/singapore.osrm
+      && osrm-routed -l INFO --algorithm mld /data/singapore.osrm
+      "
+
+networks:
+  default:
+    driver: bridge
