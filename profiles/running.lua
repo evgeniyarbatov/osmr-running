@@ -74,6 +74,14 @@ function handle_running_tags(profile ,way, result, data)
     result.forward_speed = profile.default_speed * profile.park_connector_bonus
     result.backward_speed = profile.default_speed * profile.park_connector_bonus
   end
+
+  -- Default handling for other ways
+  if result.forward_speed == 0 then
+    result.forward_speed = profile.default_speed
+  end
+  if result.backward_speed == 0 then
+      result.backward_speed = profile.default_speed
+  end
 end
   
 -- Function to modify the properties of ways
