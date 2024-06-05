@@ -1,0 +1,1 @@
+- why running profile does not generate any ways? I need to fix that
