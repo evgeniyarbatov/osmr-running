@@ -1,3 +1,3 @@
-# osmr-running
+# osrm-running
 
-Make routes generated with OSMR as close as possible to the actual running routes.
+Make routes generated with OSRM as close as possible to the actual running routes.
