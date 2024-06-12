@@ -9,8 +9,7 @@ find_access_tag = require("lib/access").find_access_tag
 
 function setup()
   default_speed                 = 15  -- Default speed in km/h
-  traffic_light_penalty         = 0.1  -- Penalty factor for traffic lights (10% of default speed)
-  park_connector_bonus          = 1.5  -- Bonus factor for 'Park Connector' paths (150% of default speed)
+  park_connector_bonus          = 1.5  -- Bonus factor for 'Park Connector' paths
   local walking_speed           = default_speed
 
   return {
@@ -168,13 +167,6 @@ function process_node(profile, node, result)
 end
 
 function handle_running_tags(profile ,way, result, data)
-  -- Avoid traffic lights by increasing the penalty for ways with traffic lights
-  local traffic_lights = way:get_value_by_key('highway')
-  if traffic_lights == 'traffic_signals' then
-    result.forward_speed = default_speed * traffic_light_penalty
-    result.backward_speed = default_speed * traffic_light_penalty
-  end
-
   -- Prefer ways with 'Park Connector' in the name by decreasing the penalty
   local name = way:get_value_by_key('name')
   if name and name:find('Park Connector') then
