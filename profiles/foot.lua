@@ -17,8 +17,8 @@ function setup()
       weight_name                   = 'duration',
       max_speed_for_map_matching    = 40/3.6, -- kmph -> m/s
       call_tagless_node_function    = false,
-      traffic_light_penalty         = 2,
-      u_turn_penalty                = 2,
+      traffic_light_penalty         = 5,
+      u_turn_penalty                = 10,
       continue_straight_at_waypoint = false,
       use_turn_restrictions         = false,
     },
