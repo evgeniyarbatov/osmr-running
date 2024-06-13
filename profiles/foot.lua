@@ -19,7 +19,7 @@ function setup()
       call_tagless_node_function    = false,
       traffic_light_penalty         = 5,
       u_turn_penalty                = 10,
-      continue_straight_at_waypoint = false,
+      continue_straight_at_waypoint = true,
       use_turn_restrictions         = false,
     },
 
