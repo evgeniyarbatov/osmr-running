@@ -168,13 +168,14 @@ function process_node(profile, node, result)
 end
 
 function handle_running_tags(profile ,way, result, data)
-  -- Prefer ways with 'Park Connector' in the name by decreasing the penalty
+  -- Prefer ways with 'Park Connector' in the name
   local name = way:get_value_by_key('name')
   if name and name:find('Park Connector') then
     result.forward_speed = walking_speed * park_connector_bonus
     result.backward_speed = walking_speed * park_connector_bonus
   end
 
+  -- Prefer ways with '<tag k="foot" v="designated"/>' tag
   local foot_designated = way:get_value_by_key("foot")
   if foot_designated == "designated" then
     result.forward_speed = walking_speed * designated_foot_bonus
@@ -239,7 +240,7 @@ function process_way(profile, way, result)
     -- access tags, e.g: motorcar, motor_vehicle, vehicle
     WayHandlers.access,
 
-     handle_running_tags,
+    handle_running_tags,
 
     -- check whether forward/backward directons are routable
     WayHandlers.oneway,
