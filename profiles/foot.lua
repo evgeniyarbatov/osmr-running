@@ -8,17 +8,14 @@ Handlers = require("lib/way_handlers")
 find_access_tag = require("lib/access").find_access_tag
 
 function setup()
-  default_speed                 = 15  -- Default speed in km/h
-  park_connector_bonus          = 1.5  -- Bonus factor for 'Park Connector' paths
-  local walking_speed           = default_speed
-
+  local walking_speed = 5
   return {
     properties = {
       weight_name                   = 'duration',
       max_speed_for_map_matching    = 40/3.6, -- kmph -> m/s
       call_tagless_node_function    = false,
-      traffic_light_penalty         = 1000,
-      u_turn_penalty                = 10,
+      traffic_light_penalty         = 2,
+      u_turn_penalty                = 0,
       continue_straight_at_waypoint = true,
       use_turn_restrictions         = false,
     },
@@ -166,23 +163,6 @@ function process_node(profile, node, result)
   end
 end
 
-function handle_running_tags(profile ,way, result, data)
-  -- Prefer ways with 'Park Connector' in the name by decreasing the penalty
-  local name = way:get_value_by_key('name')
-  if name and name:find('Park Connector') then
-    result.forward_speed = default_speed * park_connector_bonus
-    result.backward_speed = default_speed * park_connector_bonus
-  end
-
-  -- Default handling for other ways
-  if result.forward_speed == 0 then
-    result.forward_speed = default_speed
-  end
-  if result.backward_speed == 0 then
-      result.backward_speed = default_speed
-  end
-end
-
 -- main entry point for processsing a way
 function process_way(profile, way, result)
   -- the intial filtering of ways based on presence of tags
@@ -231,8 +211,6 @@ function process_way(profile, way, result)
     -- determine access status by checking our hierarchy of
     -- access tags, e.g: motorcar, motor_vehicle, vehicle
     WayHandlers.access,
-
-     handle_running_tags,
 
     -- check whether forward/backward directons are routable
     WayHandlers.oneway,
