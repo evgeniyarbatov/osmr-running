@@ -9,6 +9,8 @@ find_access_tag = require("lib/access").find_access_tag
 
 function setup()
   park_connector_bonus          = 10  -- Bonus factor for 'Park Connector' paths
+  designated_foot_bonus         = 10  -- Bonus for <tag k="foot" v="designated"/>
+
   walking_speed                 = 5
 
   return {
@@ -171,6 +173,12 @@ function handle_running_tags(profile ,way, result, data)
   if name and name:find('Park Connector') then
     result.forward_speed = walking_speed * park_connector_bonus
     result.backward_speed = walking_speed * park_connector_bonus
+  end
+
+  local foot_designated = way:get_value_by_key("foot")
+  if foot_designated == "designated" then
+    result.forward_speed = walking_speed * designated_foot_bonus
+    result.backward_speed = walking_speed * designated_foot_bonus
   end
 
   -- Default handling for other ways
